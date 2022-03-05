@@ -5,6 +5,7 @@ import os
 load_dotenv()
 
 ALPHA_KEY=os.getenv("ALPHA_KEY")
+NEWS_KEY=os.getenv("NEWS_KEY")
 STOCK_NAME = "TSLA"
 COMPANY_NAME = "Tesla Inc"
 
@@ -39,7 +40,14 @@ diff_percent=(price_difference/float(yesterday_closing_price))*100
 print(diff_percent)
 
 if(diff_percent>0.1):
-    print("Get news")
+    news_params={
+        "apiKey":NEWS_KEY,
+        "qInTitle":COMPANY_NAME,
+    }
+    news_res=requests.get(NEWS_ENDPOINT,params=news_params)
+    articles=news_res.json()["articles"]
+    three_articles=articles[:3]
+    print(three_articles)
 #Optional TODO: Format the message like this: 
 """
 TSLA: 🔺2%
